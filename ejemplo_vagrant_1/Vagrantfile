@@ -13,8 +13,9 @@ Vagrant.configure("2") do |config|
     db.vm.box = "rockylinux/9"
     db.vm.network "private_network", ip: "192.168.57.11"
     db.vm.provision "shell", inline: <<-SHELL
-      apt-get update
-      apt-get install -y apache2
+      dnf check-update
+      dnf update -y
+      dnf install -y mariaDB
     SHELL
   end 
 
@@ -22,6 +23,7 @@ Vagrant.configure("2") do |config|
     app.vm.box = "ubuntu/focal64"
     app.vm.network "private_network", ip: "192.168.57.13"
     app.vm.provision "shell", inline: <<-SHELL
+      apt-get update
       apt-get update
       apt-get install -y flask
     SHELL
